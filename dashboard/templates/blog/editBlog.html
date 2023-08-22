@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="editBlog">
+        <form method="POST">
+            {% csrf_token %}
+            <h3>Edit The Blog</h3>
+            {% if blog.header %}
+                <textarea class="header" type="text" name="header">{{blog.header}}</textarea>
+                <textarea class="description" type="text" name="description">{{blog.body}}</textarea>
+                <button type="submit" value="">Post</button>
+            {% else %}
+                <textarea class="header" type="text" name="header" placeholder="Title"></textarea>
+                <textarea class="description" type="text" name="description" placeholder="Description"></textarea>
+                <button type="submit" value="">Post</button>
+            {% endif %}
+        </form>
+    </div>
+{% endblock content %}
