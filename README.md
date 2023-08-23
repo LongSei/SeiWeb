@@ -1,7 +1,7 @@
 # SeiWeb
 
 ## Description
-The template for basic blog webpage
+The template of blog webpage built by Django framework
 * This project just created for learning purpose
 
 <img src="./img/loginSystem.png">

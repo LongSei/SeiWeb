@@ -37,7 +37,7 @@
     }
 
     form{
-        height: 520px;
+        height: 600px;
         width: 400px;
         background-color: rgba(2, 10, 239, 0.13);
         position: absolute;
@@ -61,7 +61,7 @@
     form h3{
         font-size: 32px;
         font-weight: 500;
-        line-height: 42px;
+        line-height: 10px;
         text-align: center;
     }
 
@@ -123,6 +123,8 @@
     <form method="post">
         {% csrf_token %}
         <h3>Signup Here</h3>
+        <label for="name">Account Name</label>
+        <input type="text" name="name" placeholder="Name">
 
         <label for="username">Username</label>
         <input type="text" name="username" placeholder="Username">

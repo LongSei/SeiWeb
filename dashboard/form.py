@@ -11,6 +11,7 @@ class LoginForm(forms.ModelForm):
         fields = ['username']
 
 class SignupForm(forms.ModelForm): 
+    name = forms.CharField(required=True)
     username = forms.CharField(required=True)
     password = forms.CharField(required=True)
     email = forms.EmailField(required=True)
@@ -32,3 +33,13 @@ class PostBlog(forms.ModelForm):
     class Meta: 
         model = Blog
         fields = ['id']
+
+class ChangeProfileForm(forms.ModelForm): 
+    name = forms.CharField(required=True)
+    username = forms.CharField(required=True)
+    password = forms.CharField(required=True)
+    email = forms.EmailField(required=True)
+
+    class Meta: 
+        model = Profile
+        fields = ['username']

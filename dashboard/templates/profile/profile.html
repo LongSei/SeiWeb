@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="profile">
+    <div class="information">
+        <form method="POST">
+            {% csrf_token %}
+            <h3>Your Profile</h3>
+            <label for="username">Username</label>
+            <span>{{request.user.username}}</span>
+
+            <label for="name">Account Name</label>
+            <input type="text" name="name" placeholder="Account Name" value="{{request.user.first_name}}">
+
+            <label for="passwordOld">Old password</label>
+            <input type="password" name="passwordOld" placeholder="Old Password">
+
+            <label for="password">New Password</label>
+            <input type="password" name="password" placeholder="New Password">
+
+            <label for="passwordAgain">Type New Password Again</label>
+            <input type="password" name="passwordAgain" placeholder="New Password">
+
+            <label for="email">Email</label>
+            <input type="text" name="email" placeholder="Email" value="{{request.user.email}}">
+    
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

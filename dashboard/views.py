@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Profile, Blog
 from django.contrib.auth.models import User
-from .form import LoginForm, DeletePostForm, PostBlog, SignupForm
+from .form import LoginForm, DeletePostForm, PostBlog, SignupForm, ChangeProfileForm
 from django.contrib.auth import authenticate, login, logout
 import datetime
 
@@ -40,7 +40,7 @@ def userSignup(request):
         if form.is_valid(): 
             isExist = User.objects.filter(username=request.POST['username']).exists()
             if isExist == False:
-                user = User.objects.create_user(username=request.POST['username'], password=request.POST['password'], email=request.POST['email'])
+                user = User.objects.create_user(first_name=request.POST['name'], username=request.POST['username'], password=request.POST['password'], email=request.POST['email'])
                 user.save()
                 login(request, user)
                 return redirect("SeiFinance:dashboard")
@@ -56,17 +56,61 @@ def userLogout(request):
     return redirect("SeiFinance:dashboard")
 
 def profile(request): 
+    form = ChangeProfileForm(request.POST)
+    if request.method == "POST": 
+        response = dict()
+        instance = User.objects.get(username=request.user.username)
+        if 'passwordOld' in request.POST and instance.check_password(request.POST['passwordOld']):
+            if ('password' in  request.POST) or ('passwordAgain' in request.POST): 
+                if ('password' in  request.POST) and ('passwordAgain' in request.POST): 
+                    if (request.POST['password'] != request.POST['passwordAgain']): 
+                        response['password'] = False
+                    else: 
+                        response['password'] = True
+                else: 
+                    response['password'] = False
+
+            if 'name' in request.POST: 
+                if User.objects.filter(first_name=request.POST['name']).exists() == False:
+                    response['name'] = True
+                elif request.POST['name'] == request.user.first_name: 
+                    response['name'] = True
+                else: 
+                    response['name'] = False
+
+            if 'email' in request.POST: 
+                if User.objects.filter(email=request.POST['email']).exists() == False:
+                    response['email'] = True
+                elif request.POST['email'] == request.user.email: 
+                    response['email'] = True
+                else: 
+                    response['email'] = False
+        else: 
+            response['checkPassword'] = False
+        print(response)
+        if len(response) != 0 and (('checkPassword' in response) == False): 
+            if 'password' in response and response['password'] == True: 
+                instance.set_password(request.POST['password'])
+            if 'name' in response and response['name'] == True:
+                instance.first_name = request.POST['name']
+            if 'email' in response and response['email'] == True: 
+                instance.email = request.POST['email']
+            instance.save()
+        return render(request, "profile/profile.html", {"response": response})
+    return render(request, "profile/profile.html")
+
+def myBlog(request): 
     form = DeletePostForm(request.POST)
     if request.method == "POST":
         if 'deleteId' in request.POST:
             instance = Blog.objects.get(id=request.POST['deleteId'])
             instance.delete()
-            return redirect("SeiFinance:profile")
+            return redirect("SeiFinance:myBlog")
         if 'editId' in request.POST: 
             return redirect("SeiFinance:editBlog", request.POST['editId'])
     userId = request.user.id
     blog = Blog.objects.filter(user=userId).order_by('-created_at')
-    return render(request, "blog/profile.html", {"blog": blog})
+    return render(request, "blog/myBlog.html", {"blog": blog})
 
 def editBlog(request, postId): 
     form = PostBlog(request.POST or None)
@@ -87,5 +131,5 @@ def addBlog(request):
         if form.is_valid(): 
             blog=Blog(header=request.POST['header'], body=request.POST['description'], user=request.user, created_at=datetime.datetime.now())
             blog.save()
-            return redirect("SeiFinance:profile")
+            return redirect("SeiFinance:dashboard")
     return render(request, "blog/editBlog.html")

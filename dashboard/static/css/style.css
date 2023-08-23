@@ -60,7 +60,7 @@ li {
     width: 90%;
 }
 
-.home .right .profile .post {
+.home .right .myBlog .post {
     margin-top: 10px;
     margin-bottom: 30px;
     width: 100%;
@@ -73,21 +73,21 @@ li {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
-.home .right .profile .post .header {
+.home .right .myBlog .post .header {
     margin-top: 15px;
     margin-bottom: 30px;
 }
 
-.home .right .profile .post .header  {
+.home .right .myBlog .post .header  {
     display: flex;
     justify-content: space-between;
 }
 
-.home .right .profile .post .header form {
+.home .right .myBlog .post .header form {
     display: flex;
 }
 
-.home .right .profile .post .header form button {
+.home .right .myBlog .post .header form button {
     width: 80%;
     background-color: #ffffff;
     color: #080710;
@@ -97,35 +97,35 @@ li {
     border: none;
 }
 
-.home .right .profile .post .header form button span#delete {
+.home .right .myBlog .post .header form button span#delete {
     font-size: 20px;
     color: rgb(216, 8, 8)
 }
 
-.home .right .profile .post .header form button span#edit {
+.home .right .myBlog .post .header form button span#edit {
     font-size: 20px;
 }
 
-.home .right .profile .post .body {
+.home .right .myBlog .post .body {
     margin-bottom: 15px;
 }
 
-.home .right .profile .post .footer {
+.home .right .myBlog .post .footer {
     margin-bottom: 15px;
     color: rgb(125,140,161);
 }
 
-.home .right .profile .post .header span {
+.home .right .myBlog .post .header span {
     font-size: 36px;
     font-weight: 900;
 }
 
-.home .right .profile .post .body span {
+.home .right .myBlog .post .body span {
     font-size: 20px;
     font-weight: 400;
 }
 
-.home .right .profile .post .footer span {
+.home .right .myBlog .post .footer span {
     font-size: 12px;
     font-weight: 400;;
 }
@@ -182,7 +182,6 @@ li {
 .home .left .sidebar a {
     display: flex;
     color: var(--color-info-dark);
-    margin-left: 2rem;
     gap: 1rem;
     align-items: center;
     position: relative;
@@ -203,7 +202,7 @@ li {
     margin-left: 1rem;
 }
 
-.profile .post .header button.deleteButton {
+.myBlog .post .header button.deleteButton {
     display: flex;
     align-items: center;
     border-radius: 50%;
@@ -265,18 +264,18 @@ li {
     cursor: pointer;
 }
 
-.profile .empty .emptyImg,.emptyText {
+.myBlog .empty .emptyImg,.emptyText {
     display: flex;
     margin-top: 10px;
     flex-direction: column;
     align-items: center;
 }
 
-.profile .empty .emptyText h1{
+.myBlog .empty .emptyText h1{
     margin-bottom: 10px;
 }
 
-.profile .empty .emptyImg img {
+.myBlog .empty .emptyImg img {
     margin-top: 10px;
 }
 
@@ -337,4 +336,90 @@ li {
 .dashboard .post .header span {
     font-size: 36px;
     font-weight: 900;
+}
+
+.profile .information form a {
+    display: flex;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.profile .information form{
+    height: auto;
+    width: 1000px;
+    background-color: white;
+    position: absolute;
+    transform: translate(-30%,-30%);
+    top: 52%;
+    left: 40%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    padding: 50px 35px;
+}
+
+.profile .information form *{
+    font-family: 'Poppins',sans-serif;
+    color: #060000;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+
+.profile .information form h3{
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 42px;
+    text-align: center;
+}
+
+.profile .information label{
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.profile .information span{
+    display: flex;
+    height: 50px;
+    width: 100%;
+    align-items: center;
+    background-color: rgba(3, 0, 0, 0.07);
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.profile .information input{
+    display: block;
+    height: 50px;
+    width: 100%;
+    color: black;
+    background-color: rgba(3, 0, 0, 0.07);
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.profile .information ::placeholder{
+    color: #060505;
+}
+
+.profile .information button{
+    margin-top: 50px;
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+    color: #080710;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
 }
