@@ -2,15 +2,25 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from PIL import Image
 
 class Profile(models.Model): 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     follows = models.ManyToManyField(
         "self",
         related_name="followed_by",
         symmetrical=False,
         blank=True
     )
+    avatar = models.ImageField(upload_to="avatar/", blank=True)
+    def save(self):
+            super().save()
+            img = Image.open(self.avatar.path) 
+            if img.height > 300 or img.width > 300:
+                new_img = (300, 300)
+                img.thumbnail(new_img)
+                img.save(self.avatar.path)  
+
     def __str__(self):
         return (
             f"{self.user.username}"

@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from .form import LoginForm, DeletePostForm, PostBlog, SignupForm, ChangeProfileForm
 from django.contrib.auth import authenticate, login, logout
 import datetime
+import os 
 
 def home(request):
     form = DeletePostForm(request.POST)
@@ -55,24 +56,29 @@ def userLogout(request):
     logout(request)
     return redirect("SeiFinance:dashboard")
 
-def profile(request): 
-    form = ChangeProfileForm(request.POST)
+def profile(request):
     if request.method == "POST": 
+        print(request.POST)
+        print(request.FILES)
         response = dict()
         instance = User.objects.get(username=request.user.username)
         if 'passwordOld' in request.POST and instance.check_password(request.POST['passwordOld']):
+            response['checkPassword'] = True
             if ('password' in  request.POST) or ('passwordAgain' in request.POST): 
                 if ('password' in  request.POST) and ('passwordAgain' in request.POST): 
-                    if (request.POST['password'] != request.POST['passwordAgain']): 
-                        response['password'] = False
-                    else: 
+                    if (request.POST['password'] == request.POST['passwordAgain'] and (request.POST['password'].isspace() == False) and (request.POST['password'] != '')): 
                         response['password'] = True
+                    else: 
+                        response['password'] = False
                 else: 
                     response['password'] = False
 
             if 'name' in request.POST: 
                 if User.objects.filter(first_name=request.POST['name']).exists() == False:
-                    response['name'] = True
+                    if (request.POST['name'].isspace() == False) and (request.POST['name'] != ''):
+                        response['name'] = True
+                    else: 
+                        response['name'] = False
                 elif request.POST['name'] == request.user.first_name: 
                     response['name'] = True
                 else: 
@@ -87,8 +93,14 @@ def profile(request):
                     response['email'] = False
         else: 
             response['checkPassword'] = False
-        print(response)
-        if len(response) != 0 and (('checkPassword' in response) == False): 
+
+        if 'avatar' in request.FILES: 
+            response['avatar'] = True
+        else: 
+            response['avatar'] = False
+        print(request.FILES)
+        print("RESPONSE", response)
+        if (response['checkPassword'] == True): 
             if 'password' in response and response['password'] == True: 
                 instance.set_password(request.POST['password'])
             if 'name' in response and response['name'] == True:
@@ -96,7 +108,16 @@ def profile(request):
             if 'email' in response and response['email'] == True: 
                 instance.email = request.POST['email']
             instance.save()
-        return render(request, "profile/profile.html", {"response": response})
+
+        if 'avatar' in response and response['avatar'] == True: 
+            instance = Profile.objects.get(user=request.user.id)
+            if os.path.exists(instance.avatar.path) == True: 
+                os.remove(instance.avatar.path)
+            instance.avatar = request.FILES['avatar']
+            print(instance.avatar)
+            instance.save()
+                
+        return redirect("SeiFinance:profile")
     return render(request, "profile/profile.html")
 
 def myBlog(request): 

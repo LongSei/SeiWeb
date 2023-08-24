@@ -32,6 +32,11 @@ python3 manage.py migrate
 ```
 * This database stores all your data (eg: user, post)
 
+You can create the superuser to manage the project
+```sh
+python3 manage.py createsuperuser
+```
+
 Then install the dependencies:
 
 ```sh

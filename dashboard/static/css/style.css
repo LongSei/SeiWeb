@@ -350,7 +350,7 @@ li {
     background-color: white;
     position: absolute;
     transform: translate(-30%,-30%);
-    top: 52%;
+    top: 505px;
     left: 40%;
     border-radius: 10px;
     backdrop-filter: blur(10px);
@@ -367,11 +367,16 @@ li {
     border: none;
 }
 
+.profile .information form img {
+    border-radius: 10%;
+}
+
 .profile .information form h3{
     font-size: 32px;
     font-weight: 500;
     line-height: 42px;
-    text-align: center;
+    text-align: start;
+    margin-bottom: 30px;
 }
 
 .profile .information label{
@@ -399,6 +404,7 @@ li {
     height: 50px;
     width: 100%;
     color: black;
+    align-items: center;
     background-color: rgba(3, 0, 0, 0.07);
     border-radius: 3px;
     padding: 0 10px;
@@ -422,4 +428,11 @@ li {
     font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.profile .information .unAuth {
+    display: flex;
+    margin-top: 30px;
+    justify-content: center;
+    align-items: center;
 }

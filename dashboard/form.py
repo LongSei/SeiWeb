@@ -35,11 +35,6 @@ class PostBlog(forms.ModelForm):
         fields = ['id']
 
 class ChangeProfileForm(forms.ModelForm): 
-    name = forms.CharField(required=True)
-    username = forms.CharField(required=True)
-    password = forms.CharField(required=True)
-    email = forms.EmailField(required=True)
-
     class Meta: 
         model = Profile
-        fields = ['username']
+        fields = '__all__'
