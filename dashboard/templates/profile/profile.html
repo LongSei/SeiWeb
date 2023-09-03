@@ -8,9 +8,11 @@
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <h3>Your Profile</h3>
-                <img src="media/{{request.user.profile.avatar}}">
-                <label for="avatar">Click Here To Change The Avatar</label>
-                <input type="file" name="avatar">
+                {% if request.user.profile.avatar %}
+                    <img src="media/{{request.user.profile.avatar}}">
+                {% endif %}
+                    <label for="avatar">Click Here To Change Or Add Avatar</label>
+                    <input type="file" name="avatar">
 
                 <label for="username">Username</label>
                 <span>{{request.user.username}}</span>

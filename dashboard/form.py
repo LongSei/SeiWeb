@@ -10,16 +10,6 @@ class LoginForm(forms.ModelForm):
         model = Profile
         fields = ['username']
 
-class SignupForm(forms.ModelForm): 
-    name = forms.CharField(required=True)
-    username = forms.CharField(required=True)
-    password = forms.CharField(required=True)
-    email = forms.EmailField(required=True)
-
-    class Meta: 
-        model = Profile
-        fields = ['username']
-
 class DeletePostForm(forms.ModelForm): 
     id = forms.IntegerField(required=True)
     class Meta:

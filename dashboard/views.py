@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
-from .models import Profile, Blog
+from .models import *
 from django.contrib.auth.models import User
-from .form import LoginForm, DeletePostForm, PostBlog, SignupForm, ChangeProfileForm
+from .form import LoginForm, DeletePostForm, PostBlog, ChangeProfileForm
 from django.contrib.auth import authenticate, login, logout
 import datetime
 import os 
+from django.utils.crypto import get_random_string
 
 def home(request):
     form = DeletePostForm(request.POST)
@@ -36,21 +37,16 @@ def userLogin(request):
     return render(request, "login/login.html", {"form": form})
 
 def userSignup(request): 
-    form = SignupForm(request.POST)
     if request.method == "POST": 
-        if form.is_valid(): 
-            isExist = User.objects.filter(username=request.POST['username']).exists()
-            if isExist == False:
-                user = User.objects.create_user(first_name=request.POST['name'], username=request.POST['username'], password=request.POST['password'], email=request.POST['email'])
-                user.save()
-                login(request, user)
-                return redirect("SeiFinance:dashboard")
-            else: 
-                return render(request, "login/signup.html", {"isExist": isExist})
+        isExist = User.objects.filter(username=request.POST['username']).exists()
+        if isExist == False:
+            user = User.objects.create_user(first_name=request.POST['name'], username=request.POST['username'], password=request.POST['password'], email=request.POST['email'])
+            user.save()
+            login(request, user)
+            return redirect("SeiFinance:dashboard")
         else: 
-            isExist = True
             return render(request, "login/signup.html", {"isExist": isExist})
-    return render(request, "login/signup.html", {"form": form})
+    return render(request, "login/signup.html")
 
 def userLogout(request): 
     logout(request)
@@ -98,8 +94,6 @@ def profile(request):
             response['avatar'] = True
         else: 
             response['avatar'] = False
-        print(request.FILES)
-        print("RESPONSE", response)
         if (response['checkPassword'] == True): 
             if 'password' in response and response['password'] == True: 
                 instance.set_password(request.POST['password'])
@@ -111,11 +105,10 @@ def profile(request):
 
         if 'avatar' in response and response['avatar'] == True: 
             instance = Profile.objects.get(user=request.user.id)
-            if os.path.exists(instance.avatar.path) == True: 
+            if instance.avatar != "" and os.path.exists(instance.avatar.path) == True: 
                 os.remove(instance.avatar.path)
             instance.avatar = request.FILES['avatar']
-            print(instance.avatar)
-            instance.save()
+            instance.saveImage()
                 
         return redirect("SeiFinance:profile")
     return render(request, "profile/profile.html")
