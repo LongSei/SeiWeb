@@ -1,0 +1,21 @@
+{% autoescape on %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kích Hoạt Tài Khoản của Bạn trên SeiStore</title>
+</head>
+<body>
+    <p>Xin chào {{ user.name }},</p>
+
+    <p>Bạn nhận được email này vì bạn đã đăng ký tài khoản trên SeiStore. </p>
+    <p>Để hoàn thành quá trình đăng ký và kích hoạt tài khoản của bạn, vui lòng nhấp vào liên kết bên dưới:</p>
+
+    Link kích hoạt tài khoản: http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+    <p>Nếu bạn không yêu cầu tạo tài khoản trên SeiStore, bạn có thể bỏ qua email này.</p>
+
+    <p>Trân trọng,</p>
+    <p>SeiStore</p>
+</body>
+</html>
+{% endautoescape %}

@@ -1,0 +1,5 @@
+{% autoescape off %}
+Xin chào {{ user.username }},
+Vui lòng bấm vào đường link này để xác nhận việc thay đổi thông tin
+http://{{ domain }}{% url 'change_profile' uidb64=uid token=token email=email phone_number=phone_number%}
+{% endautoescape %}

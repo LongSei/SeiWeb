@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-conten padding-y bg">
+    <div class="container">
+        {% include "includes/alerts.html" %}
+        <div class="row">
+            <aside class="col-md-3">
+                <!--   SIDEBAR   -->
+                <ul class="list-group">
+                    <a class="list-group-item {% if request.resolver_match.view_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">Thông tin của bạn</a>
+                    {% if request.user.is_superadmin == False %}
+                        <a class="list-group-item {% if request.resolver_match.view_name == 'orderHistory' %}active{% endif %}" href="{% url 'orderHistory' %}"> Lịch sử đặt hàng </a>
+                    {% else %}
+                        <a class="list-group-item {% if request.resolver_match.view_name == 'soldHistory' %}active{% endif %}" href="{% url 'soldHistory' %}">Lịch sử đơn đặt hàng</a>
+                        <a class="list-group-item {% if request.resolver_match.view_name == 'storeHistory' %}active{% endif %}" href="{% url 'storeHistory' %}">Lịch sử cửa hàng</a>
+                        <a class="list-group-item {% if request.resolver_match.view_name == 'uploadProducts' %}active{% endif %}" href="{% url 'uploadProducts' %}">Đăng tải sản phẩm</a>
+                    {% endif %}
+                </ul>
+                <br>
+                <a class="btn btn-light btn-block" href="{% url 'logout' %}"> <i class="fa fa-power-off"></i> <span class="text">Log
+                        out</span> </a>
+                <!--   SIDEBAR .//END   -->
+            </aside>
+            <main class="col-md-9">
+            {% block main %}
+        
+            {% endblock %}
+            </main>
+        </div> <!-- row.// -->
+    </div>
+
+
+</section>
+<!-- ========================= SECTION CONTENT END// ========================= -->
+{% endblock %}

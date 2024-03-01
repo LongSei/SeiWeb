@@ -4,13 +4,11 @@
 The template of blog webpage built by Django framework
 * This project just created for learning purpose
 
-<img src="./img/loginSystem.png">
-<img src="./img/Blog.png">
-<img src="./img/postBlog.png">
-
 ## Features: 
-- System Authorization (login, signup,...)
-- Post text 
+- Authorization System
+- Admin system 
+- Order system
+- Order Tracking System
 
 ## Setup
 The first thing to do is to clone the repository:

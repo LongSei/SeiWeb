@@ -1,0 +1,67 @@
+{% extends 'accounts/baseDashboard.html' %}
+{% load static %}
+
+{% block main %}
+{%if pending_orders|length == 0%}
+<h2 class="text text-muted text-center "><br><br>Danh mục trống</h2>
+{%endif%}
+{% for order in pending_orders%}
+    <article class="card">
+        <header class="card-header">
+            <strong class="d-inline-block mr-3">Mã đơn hàng: {{order.order_number}}</strong>
+            <span>Ngày đặt hàng: {{order.created_at}}</span>
+        </header>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <h6 class="text-muted">Thông tin khách hàng</h6>
+                    <p> Họ và tên: {{order.Name}}<br>
+                        Số điện thoại: {{order.Phone}}<br>
+                        Địa chỉ: {{order.Address}}<br>
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-muted">Thanh toán</h6>
+                    <p> Thành tiền: {{order.order_total}}k VND <br>
+                        Tình trạng đơn: 
+                        {%if order.status == "Huỷ bỏ"%}
+                            <span class="text-danger">{{order.status}}</span><br>
+                        {%else%}
+                            <span class="text-success">{{order.status}}</span><br>
+                        {%endif%}
+                        Tổng tiền: {{order.order_total}}k VND
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover">
+                {% for order_product in order_products%}
+                    {% if order_product.order.order_number == order.order_number %}
+                        <tr>
+                            <td width="65">
+                                <a href="{{ order_product.product.get_url }}"> <img src="{{ order_product.product.images.get_image.0.image.url }}" class="img-xs border"> </a>
+                            </td>
+                            <td>
+                                <p class="title mb-0">{{order_product.product.product_name}}</p>
+                                <var class="price text-muted">{{order_product.product_price}}k VND</var>
+                            </td>
+                            <td> Số lượng: {{order_product.quantity}} <br> Thành tiền: {{order_product.total_value}}k VND</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+        {%if order.status != "Hoàn thành"%}
+            <div class="card-footer">
+                <a class="btn btn-outline-success btn-lg btn-block" href="{%url 'editOrder' order_number=order.order_number method='progress'%}">Lên đơn</a>
+                <a class="btn btn-outline-danger btn-lg btn-block" href="{%url 'editOrder' order_number=order.order_number method='delete'%}">Xoá</a>
+            </div>
+        {%endif%}
+    </article>
+    <hr>
+{% endfor%}
+<!-- ========================= SECTION CONTENT END// ========================= -->
+{% endblock %}

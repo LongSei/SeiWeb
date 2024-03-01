@@ -1,0 +1,68 @@
+{% extends 'accounts/baseDashboard.html' %}
+{% load static %}
+
+{% block main %}
+<article class="card">
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-sm-3">
+                <p class="mb-0">Họ và tên</p>
+                </div>
+                <input class="col-sm-8 border-0" type="text" placeholder="{{user.name}}" name="name" value="{{user.name}}">
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3">
+                <p class="mb-0">Emaill</p>
+                </div>
+                <input class="col-sm-8 border-0" type="text" placeholder="{{user.email}}" name="email" value="{{user.email}}">
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3">
+                <p class="mb-0">Số điện thoại</p>
+                </div>
+                <input class="col-sm-8 border-0" type="text" placeholder="{{user.phone_number}}" name="phone_number" value="{{user.phone_number}}">
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3">
+                <p class="mb-0">Tài khoản tạo từ</p>
+                </div>
+                <div class="text-muted">
+                    <p class="col">{{user.date_joined}}</p>
+                </div>
+            </div>
+            <hr>
+            <div class="col-right">
+                <button class="btn btn-block btn-primary" type="submit">
+                    Cập nhật
+                </button>
+            </div>
+        </form>
+    </div>
+</article>
+<hr>
+<div class="row">
+    {% if sold_products|length > 0%}
+        <div class="col">
+            <div class="card mb-4 mb-md-0">
+                <div class="card-body">
+                    <p class="mb-4">
+                        <span class="text-primary ">Thống kê bán hàng: </span> 
+                    </p>
+
+                    {% for product in sold_products %}
+                        {% if product.percent_income > 1 %}
+                            <p class="mt-4 mb-1" style="font-size: .90rem;">{{product.product_name}} ({{product.category}}): {{product.percent_income|floatformat:'2'}}% - {{product.total_income}}k VND</p>
+                            <hr>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{%endblock%}

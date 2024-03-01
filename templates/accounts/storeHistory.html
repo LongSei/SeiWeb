@@ -1,0 +1,77 @@
+{% extends 'accounts/baseDashboard.html' %}
+{% load static %}
+
+{% block main %}
+{%if products|length == 0%}
+<h2 class="text text-muted text-center "><br><br>Danh mục trống</h2>
+{%endif%}
+{% for product in products%}
+    <article class="card">
+        <header class="card-header">
+            <strong class="d-inline-block mr-3">Sản phẩm: {{product.product_name}}</strong><br>
+            <span>Ngày đăng: {{product.created_date}}</span>
+        </header>
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    {% for idx in product.images.get_image%}
+                        {%if forloop.counter == 0%}
+                            <li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter0}}" class="active"></li>
+                        {%else%}
+                            <li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter0}}"></li>
+                        {%endif%}
+                    {% endfor %}
+                </ol>
+                <div class="carousel-inner">
+                    {%for image in product.images.get_image %}
+                        {%if image == product.images.get_image.0%}
+                            <div class="carousel-item active">
+                        {%else%}
+                            <div class="carousel-item">
+                        {%endif%}
+                            <a href="{{ product.get_url }}" class="img-wrap">
+                                <img src="{{ image.image.url }}" alt="First slide">
+                            </a>
+                        </div>
+                    {%endfor%}
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+                </a>
+            </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <h6 class="text-muted">Thông tin sản phẩm</h6>
+                    <p class="font-weight-bold"> Chủ sở hữu: {{product.user.email}}<br>
+                        Giá: {{product.price}}k VND<br>
+                        Số lượng còn lại: {{product.stock}} Sản phẩm<br>
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-muted">Chi tiết</h6>
+                    <p class="font-weight-bold"> Số lượng đã bán: {{product.sold}} Sản phẩm<br>
+                        Danh mục: {{product.category}}</p>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <a class="btn text-secondary" href="{% url 'editProduct' product.id%}">Chỉnh sửa</a>
+                </div>
+                <hr>
+                <div class="col-md-12 text-right">
+                    <a class="btn text-danger" href="{% url 'deleteProduct' product.id%}">Xoá</a>
+                </div>
+            </div>
+            
+        </div>
+    </article>
+    <hr>
+{% endfor %}
+{%endblock%}
