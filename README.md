@@ -19,8 +19,8 @@ $ git clone https://github.com/LongSei/SeiWeb.git
 
 Add the app 
 ```sh
-python3 manage.py makemigrations dashboard 
-python3 manage.py migrate dashboard
+python3 manage.py makemigrations 
+python3 manage.py migrate
 ```
 
 Create the database
@@ -39,6 +39,11 @@ Then install the dependencies:
 
 ```sh
 $ pip3 install -r requirements.txt
+```
+
+Run server
+```sh
+python3 manage.py runserver
 ```
 
 And navigate to `http://127.0.0.1:8000/`
